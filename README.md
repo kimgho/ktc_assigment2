@@ -70,7 +70,7 @@ prop drilling과 Context API를 비교 구현하며, 기본 CRUD 기능을 통�
 ---
 
 ## 🚀 배포
-- [ ] Vercel을 이용해 배포 완료
+- [x] Vercel을 이용해 배포 완료
 
 ---
 
