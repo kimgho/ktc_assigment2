@@ -1,4 +1,4 @@
-import { PokemonProvider } from "./context/PokemonContext"
+import { PokemonProvider } from "./context"
 import Router from "./router"
 
 function App() {
