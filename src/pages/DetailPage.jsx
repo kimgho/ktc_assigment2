@@ -1,6 +1,7 @@
 import { useNavigate, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import MOCK_DATA from "../mock/mock"; // Adjust the path if your MOCK_DATA is elsewhere
+import MOCK_DATA from "../mock/mock";
+import { usePokemonContext } from "../context";
 
 const DetailContainer = styled.div`
     display: flex;
@@ -40,6 +41,21 @@ const Description = styled.p`
   margin: 0 0 20px 0;
 `;
 
+const ActionButton = styled.button`
+    background-color: rgb(255, 0, 0);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: 500;
+    
+    &:hover {
+     opacity:0.2;
+    }
+`
+
 const BackButton = styled.button`
   background-color: #1a1a1a;
   color: white;
@@ -57,7 +73,7 @@ const BackButton = styled.button`
 const DetailPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-
+    const { isInTeam, handlePokemonAction } = usePokemonContext();
     const searchParams = new URLSearchParams(location.search);
     const id = searchParams.get("id");
 
@@ -78,7 +94,6 @@ const DetailPage = () => {
 
     const pokemonTypes = pokemonDetail.types ? pokemonDetail.types.join(', ') : '알 수 없음';
 
-
     return (
         <DetailContainer>
             <PokemonImage src={pokemonDetail.img_url} alt={pokemonDetail.korean_name} />
@@ -87,6 +102,9 @@ const DetailPage = () => {
                 <TypeText>타입: {pokemonTypes}</TypeText>
             </TypeContainer>
             <Description>{pokemonDetail.description || "설명이 없습니다."}</Description>
+            <ActionButton onClick={() => handlePokemonAction(pokemonDetail)}>
+                {isInTeam(pokemonDetail) ? '삭제' : '추가'}
+            </ActionButton>
             <BackButton onClick={handleGoBack}>뒤로 가기</BackButton>
         </DetailContainer>
     );
