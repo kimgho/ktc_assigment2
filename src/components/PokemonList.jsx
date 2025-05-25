@@ -1,6 +1,5 @@
 import styled from "styled-components"
 import PokemonCard from "./PokemonCard"
-import { usePokemonContext } from "../context"
 
 const ListContainer = styled.div`
     background-color: rgb(248, 248, 248);
@@ -14,12 +13,12 @@ const Grid = styled.div`
     gap: 18px;
 `
 const PokemonList = ({ pokemon, onClick }) => {
-    const { isInTeam } = usePokemonContext();
+   
     return (
         <ListContainer>
             <Grid>
                 {pokemon.map((poke) => (
-                    <PokemonCard key={poke.id} pokemon={poke} onClick={onClick} isInTeam={isInTeam(poke)} />
+                    <PokemonCard key={poke.id} pokemon={poke} onClick={onClick}/>
                 ))}
             </Grid>
         </ListContainer>
