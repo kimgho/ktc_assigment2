@@ -1,11 +1,12 @@
-import { PokemonProvider } from "./context"
+import { Provider } from "react-redux"
 import Router from "./router"
+import store from "./store/store"
 
 function App() {
   return (
-    <PokemonProvider>
+    <Provider store={store}>
       <Router />
-    </PokemonProvider>
+    </Provider>    
   )
 }
 

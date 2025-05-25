@@ -1,9 +1,12 @@
+import {useSelector,useDispatch} from "react-redux"
 import styled from "styled-components"
 import MOCK_DATA from "../mock/mock"
 import PokemonList from "./PokemonList"
 import pokeball from "../assets/pokeball.png"
 import PokemonCard from "./PokemonCard"
-import { usePokemonContext } from "../context"
+import { selectMyTeam, addToTeam, removeFromTeam, clearAlert,selectAlertMessage, } from '../store/pokemonSlice';
+import { useEffect } from "react"
+import { AlertModal } from "../utils/alert-modal"
 
 const DashboardContainer = styled.div`
     max-width: 1200px;
@@ -62,38 +65,55 @@ const PokeBall = styled.img`
 `
 
 const Dashboard = () => {
-  const { myTeam, handlePokemonAction } = usePokemonContext();
+  const dispatch = useDispatch();
+  const myTeam = useSelector(selectMyTeam);
+  const alertMessage = useSelector(selectAlertMessage);
+
+  useEffect(() => {
+      if (alertMessage) {
+          AlertModal(alertMessage);
+          dispatch(clearAlert());
+      }
+  }, [alertMessage, dispatch]);
+  const handlePokemonAction = (pokemon) => {
+        const isCurrentlyInTeam = myTeam.some(p => p.id === pokemon.id);
+        if (isCurrentlyInTeam) {
+            dispatch(removeFromTeam(pokemon));
+        } else {
+            dispatch(addToTeam(pokemon));
+        }
+    };
 
   return (
-    <DashboardContainer>
-      <MyPokemon>
-        <MyPokemonTitle>나만의 포켓몬</MyPokemonTitle>
-        <MyPokemonGrid>
-          {Array(6)
-            .fill(0)
-            .map((_, index) =>
-              myTeam[index] ? (
-                <PokemonSlot key={index}>
-                  <PokemonCard
-                    pokemon={myTeam[index]}
-                    onClick={handlePokemonAction}
-                    isInTeam={true}
-                  />
-                </PokemonSlot>
-              ) : (
-                <EmptyCard key={index}>
-                  <PokeBall src={pokeball} alt="포켓볼" />
-                </EmptyCard>
-              )
-            )}
-        </MyPokemonGrid>
-      </MyPokemon>
-      <PokemonList
-        pokemon={MOCK_DATA}
-        onClick={handlePokemonAction}
-      />
-    </DashboardContainer>
-  );
+        <DashboardContainer>
+            <MyPokemon>
+                <MyPokemonTitle>나만의 포켓몬</MyPokemonTitle>
+                <MyPokemonGrid>
+                    {Array(6)
+                        .fill(0)
+                        .map((_, index) =>
+                            myTeam[index] ? (
+                                <PokemonSlot key={index}>
+                                    <PokemonCard
+                                        pokemon={myTeam[index]}
+                                        onClick={handlePokemonAction}
+                                        isInTeam={true}
+                                    />
+                                </PokemonSlot>
+                            ) : (
+                                <EmptyCard key={index}>
+                                    <PokeBall src={pokeball} alt="포켓볼" />
+                                </EmptyCard>
+                            )
+                        )}
+                </MyPokemonGrid>
+            </MyPokemon>
+            <PokemonList 
+                pokemon={MOCK_DATA} 
+                onClick={handlePokemonAction}
+            />
+        </DashboardContainer>
+    );
 };
 
 export default Dashboard;
