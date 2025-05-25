@@ -1,7 +1,12 @@
-import { useNavigate, useLocation } from "react-router-dom";
-import styled from "styled-components";
-import MOCK_DATA from "../mock/mock";
-import { usePokemonContext } from "../context";
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import {addToTeam,removeFromTeam,selectAlertMessage,clearAlert, selectIsInTeam } from '../store/pokemonSlice';
+import { AlertModal } from '../utils/alert-modal';
+import MOCK_DATA from '../mock/mock';
+import styled from 'styled-components';
+import { useEffect } from 'react';
+
+
 
 const DetailContainer = styled.div`
     display: flex;
@@ -73,14 +78,34 @@ const BackButton = styled.button`
 const DetailPage = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { isInTeam, handlePokemonAction } = usePokemonContext();
+    const dispatch = useDispatch();
+    const alertMessage = useSelector(selectAlertMessage);
+
     const searchParams = new URLSearchParams(location.search);
     const id = searchParams.get("id");
-
     const pokemonDetail = MOCK_DATA.find(pokemon => pokemon.id === Number(id));
+
+    useEffect(() => {
+        if (alertMessage) {
+            AlertModal(alertMessage);
+            dispatch(clearAlert());
+        }
+    }, [alertMessage, dispatch]);
 
     const handleGoBack = () => {
         navigate(-1);
+    };
+
+    const inTeam = useSelector(selectIsInTeam(pokemonDetail));
+
+    const handleAddOrRemove = () => {
+        if (!pokemonDetail) return;
+
+        if (inTeam) {
+            dispatch(removeFromTeam(pokemonDetail));
+        } else {
+            dispatch(addToTeam(pokemonDetail));
+        }
     };
 
     if (!pokemonDetail) {
@@ -93,7 +118,7 @@ const DetailPage = () => {
     }
 
     const pokemonTypes = pokemonDetail.types ? pokemonDetail.types.join(', ') : '알 수 없음';
-
+    
     return (
         <DetailContainer>
             <PokemonImage src={pokemonDetail.img_url} alt={pokemonDetail.korean_name} />
@@ -102,8 +127,8 @@ const DetailPage = () => {
                 <TypeText>타입: {pokemonTypes}</TypeText>
             </TypeContainer>
             <Description>{pokemonDetail.description || "설명이 없습니다."}</Description>
-            <ActionButton onClick={() => handlePokemonAction(pokemonDetail)}>
-                {isInTeam(pokemonDetail) ? '삭제' : '추가'}
+            <ActionButton onClick={handleAddOrRemove}>
+                {inTeam ? '삭제' : '추가'}
             </ActionButton>
             <BackButton onClick={handleGoBack}>뒤로 가기</BackButton>
         </DetailContainer>
