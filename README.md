@@ -54,8 +54,8 @@ prop drilling과 Context API를 비교 구현하며, 기본 CRUD 기능을 통�
 ## 🧪 도전 과제 (선택 사항)
 
 ### 🔄 Redux Toolkit 리팩터링
-- [ ] `redux-toolkits` 브랜치 생성
-- [ ] Redux Toolkit으로 포켓몬 선택 상태 관리
+- [x] `redux-toolkits` 브랜치 생성
+- [x] Redux Toolkit으로 포켓몬 선택 상태 관리
 
 ### ➕ 디테일 페이지에서 포켓몬 추가
 - [x] '추가' / '삭제' 버튼으로 상태 반영
