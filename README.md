@@ -11,8 +11,8 @@ prop drilling과 Context API를 비교 구현하며, 기본 CRUD 기능을 통�
 
 ### 1. Git 브랜치 전략 사용
 - [x] `prop-drilling` 브랜치: props를 통한 상태 전달 방식 구현
-- [ ] `context` 브랜치: Context API를 이용한 전역 상태 관리 구현
-- [ ] 두 방식의 차이 비교 및 이해
+- [x] `context` 브랜치: Context API를 이용한 전역 상태 관리 구현
+- [x] 두 방식의 차이 비교 및 이해
 
 ---
 
@@ -58,10 +58,10 @@ prop drilling과 Context API를 비교 구현하며, 기본 CRUD 기능을 통�
 - [ ] Redux Toolkit으로 포켓몬 선택 상태 관리
 
 ### ➕ 디테일 페이지에서 포켓몬 추가
-- [ ] '추가' / '삭제' 버튼으로 상태 반영
+- [x] '추가' / '삭제' 버튼으로 상태 반영
 
 ### 🔁 리스트 페이지 상태 유지
-- [ ] 디테일 페이지 방문 후 상태 유지 (localStorage 등 활용)
+- [x] 디테일 페이지 방문 후 상태 유지 (localStorage 등 활용)
 
 ### 💬 alert 대신 UI 라이브러리 사용
 - [x] Modal 또는 toast로 피드백 제공  
