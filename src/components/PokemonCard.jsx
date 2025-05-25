@@ -1,5 +1,7 @@
+import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import styled from "styled-components"
+import { selectIsInTeam } from "../store/pokemonSlice"
 
 const CardContainer = styled.div`
     display: flex;
@@ -55,13 +57,15 @@ const ActionButton = styled.button`
     }
 `
 
-const PokemonCard = ({ pokemon, onClick, isInTeam = false }) => {
+const PokemonCard = ({ pokemon, onClick}) => {
     const formattedNumber = String(pokemon.id).padStart(3, "0")
     const navigate = useNavigate();
-
+    const isInTeam = useSelector(selectIsInTeam(pokemon));
+    
     const handlePokemonDetail = (id) => {
         navigate(`/pokemon-detail?id=${id}`);
     }
+    
     return (
         <CardContainer onClick={() => handlePokemonDetail(pokemon.id)}>
             <PokemonImage src={pokemon.img_url} alt={pokemon.korean_name} />
