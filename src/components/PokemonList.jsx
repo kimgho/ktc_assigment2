@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import PokemonCard from "./PokemonCard"
+import { usePokemonContext } from "../context"
 
 const ListContainer = styled.div`
     background-color: rgb(248, 248, 248);
@@ -12,12 +13,13 @@ const Grid = styled.div`
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 18px;
 `
-const PokemonList = ({ pokemon, onClick, isInTeam }) => {
+const PokemonList = ({ pokemon, onClick }) => {
+    const { isInTeam } = usePokemonContext();
     return (
         <ListContainer>
             <Grid>
                 {pokemon.map((poke) => (
-                    <PokemonCard key={poke.id} pokemon={poke} onClick={onClick} isInTeam={isInTeam && isInTeam(poke)} />
+                    <PokemonCard key={poke.id} pokemon={poke} onClick={onClick} isInTeam={isInTeam(poke)} />
                 ))}
             </Grid>
         </ListContainer>
